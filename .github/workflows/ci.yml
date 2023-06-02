@@ -9,6 +9,7 @@ env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USER }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   FRONTEND_REPO_NAME: "assignment_frontend"
+  BACKEND_REPO_NAME: "assignment_backend"
 
 jobs:
   build-and-deploy:
@@ -27,9 +28,17 @@ jobs:
         run: |
           cd frontend
           docker build -t "${DOCKERHUB_USERNAME}/${FRONTEND_REPO_NAME}:$GITHUB_RUN_NUMBER" .
+      
+      - name: Build Backend Image
+        run: |
+          cd frontend
+          docker build -t "${DOCKERHUB_USERNAME}/${BACKEND_REPO_NAME}:$GITHUB_RUN_NUMBER" .    
           
       - name: Log in to Docker registry
         run: echo "${DOCKERHUB_TOKEN}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
 
       - name: Push Frontend Image
         run: docker push "${DOCKERHUB_USERNAME}/${FRONTEND_REPO_NAME}:$GITHUB_RUN_NUMBER"
+        
+      - name: Push Backend Image
+        run: docker push "${DOCKERHUB_USERNAME}/${BACKEND_REPO_NAME}:$GITHUB_RUN_NUMBER"  
