@@ -65,6 +65,7 @@ app.use(express.json());
 app.post("/", async (req, res) => {
        const x = user.create("Hi")    
        res.status(200).json(user)
+       
     // const newTask = new Task(req.body);
     // const result = await newTask.save();
     // res.send(result);
@@ -80,5 +81,6 @@ mongoose.connect("mongodb+srv://rohanrustagi21:2V0WpUvfuXMYn2yp@cluster0.7wtlhlq
   console.log(`Backend listening at http://localhost:${port}`);
 });
 }).catch((error) => {console.log(error)})
+
 
 
