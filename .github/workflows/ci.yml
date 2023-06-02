@@ -41,4 +41,10 @@ jobs:
         run: docker push "${DOCKERHUB_USERNAME}/${FRONTEND_REPO_NAME}:$GITHUB_RUN_NUMBER"
         
       - name: Push Backend Image
-        run: docker push "${DOCKERHUB_USERNAME}/${BACKEND_REPO_NAME}:$GITHUB_RUN_NUMBER"  
+        run: docker push "${DOCKERHUB_USERNAME}/${BACKEND_REPO_NAME}:$GITHUB_RUN_NUMBER" 
+        
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run tests
+        run: npm test  
