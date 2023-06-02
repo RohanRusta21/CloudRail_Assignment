@@ -54,6 +54,4 @@ jobs:
           node-version: '8.x'
           
       - name: Install dependencies
-      - run: npm clean install
-      - run: npm run build --if-present
-      - run: npm test
+        run: npm test
