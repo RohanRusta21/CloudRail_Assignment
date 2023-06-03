@@ -74,10 +74,22 @@ app.post('/data',async (req,res)=>{
     name
   })
   res.status(201).json({
-    name : data.name
+    data
   })
-
+console.log(data)
 })
+
+app.post('/data/del', async (req,res)=> {
+  const id = req.body
+  const delData = await user.findOneAndDelete({_id:id
+ })
+ res.status(201).json({
+  msg: "delete the message"
+})
+console.log(data)
+} )
+
+//647b24adf55133d3be43d2cd
 
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>{
