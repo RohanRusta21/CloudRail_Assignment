@@ -51,7 +51,27 @@ jobs:
         run: docker push "${DOCKERHUB_USERNAME}/${FRONTEND_REPO_NAME}:$GITHUB_RUN_NUMBER"
         
       - name: Push Backend Image
-        run: docker push "${DOCKERHUB_USERNAME}/${BACKEND_REPO_NAME}:$GITHUB_RUN_NUMBER" 
-               
-         
-        
+        run: docker push "${DOCKERHUB_USERNAME}/${BACKEND_REPO_NAME}:$GITHUB_RUN_NUMBER"
+      
+  
+
+  update-manifest-stage:
+    runs-on: ubuntu-latest
+    needs: ['build-and-push']
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: RohanRusta21/CloudRail_Assignment_Manifest
+          ref: 'main'
+          token: ${{ secrets.G_TOKEN }}
+      - name: setup git config
+        run: |
+          git config --global user.email "rohanrustagi21@gmail.com"
+          git config --global user.name "RohanRusta21"
+          echo ${{ github.sha }}
+          sed -i "s#${DOCKERHUB_USERNAME}.*#${DOCKERHUB_USERNAME}/${FRONTEND_REPO_NAME}:$GITHUB_RUN_NUMBER#g" frontend_deployment.yml
+          sed -i "s#${DOCKERHUB_USERNAME}.*#${DOCKERHUB_USERNAME}/${BACKEND_REPO_NAME}:$GITHUB_RUN_NUMBER#g" backend_deployment.yml
+          git add -A
+          git commit -am "Update image for Version - $GITHUB_RUN_NUMBER"
+      - run: echo ${{ github }}
+      - run: git push origin main
