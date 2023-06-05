@@ -61,7 +61,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: RohanRusta21/CloudRail_Assignment_Manifest
+          repository: RohanRusta21/cloudrail_assignment_manifest
+
           ref: 'main'
           token: ${{ secrets.G_TOKEN }}
       - name: setup git config
