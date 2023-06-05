@@ -2,25 +2,23 @@ version: '3'
 services:
   frontend:
     build:
-      context: ./frontend # Path to your frontend app directory
-      dockerfile: Dockerfile # Name of the Dockerfile for frontend
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - 4200:4200 # Adjust the port as per your frontend app configuration
+      - 4200:4200 
   backend:
     build:
-      context: ./backend # Path to your backend app directory
-      dockerfile: Dockerfile # Name of the Dockerfile for backend
+      context: ./backend 
+      dockerfile: Dockerfile 
     ports:
-      - 3000:3000 # Adjust the port as per your backend app configuration
+      - 3000:3000 
     depends_on:
       - mongodb
     environment:
       - MONGODB_URI="mongodb+srv://rohanrustagi21:2V0WpUvfuXMYn2yp@cluster0.7wtlhlq.mongodb.net/?retryWrites=true&w=majority"
-
- # Replace with your MongoDB connection URI
   mongodb:
     image: mongo
     ports:
-      - 27017:27017 # Adjust the port as per your MongoDB configuration
+      - 27017:27017 
     volumes:
-      - ./data:/data/db # Path to persist MongoDB data
+      - ./data:/data/db
