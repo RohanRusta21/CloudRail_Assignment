@@ -74,8 +74,8 @@ jobs:
       - name: Build and test frontend
         run: |
           cd frontend
-          npm build --if-present
-          npm test
+          ng build --prod
+          ng test
     
   backend-test:
     runs-on: ubuntu-latest
