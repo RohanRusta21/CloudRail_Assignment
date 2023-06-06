@@ -1,21 +1,15 @@
 name: Build and Push Docker Image to DockerHub
 
- 
-
 on:
   push:
     branches:
       - main
-
- 
 
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USER }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   FRONTEND_REPO_NAME: "assignment_frontend"
   BACKEND_REPO_NAME: "assignment_backend"
-
- 
 
 jobs:
   build-and-push:
@@ -29,8 +23,6 @@ jobs:
         run: |
           wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb
           sudo dpkg -i trivy_0.18.3_Linux-64bit.deb
-
- 
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -55,38 +47,63 @@ jobs:
           trivy image "${DOCKERHUB_USERNAME}/${FRONTEND_REPO_NAME}:$GITHUB_RUN_NUMBER"
           trivy image "${DOCKERHUB_USERNAME}/${BACKEND_REPO_NAME}:$GITHUB_RUN_NUMBER"
 
- 
-
       - name: Push Frontend Image
         run: docker push "${DOCKERHUB_USERNAME}/${FRONTEND_REPO_NAME}:$GITHUB_RUN_NUMBER"
         
       - name: Push Backend Image
         run: docker push "${DOCKERHUB_USERNAME}/${BACKEND_REPO_NAME}:$GITHUB_RUN_NUMBER"
-      
   
-
- 
-
+  frontend-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 8
+    
+      - name: Install dependencies
+        run: npm install
+    
+      - name: Build and test frontend
+        run: |
+          cd frontend
+          npm run build --if-present
+          npm run test
+    
+  backend-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 8
+    
+      - name: Install dependencies
+        run: npm install
+    
+      - name: Test backend
+        run: |
+          cd backend
+          npm test
+            
   update-manifest-stage:
     runs-on: ubuntu-latest
-    needs: ['build-and-push']
+    needs: ['build-and-push', 'frontend-test', 'backend-test']
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: RohanRusta21/cloudrail_assignment_manifest
-
- 
-
+          repository: RohanRusta21/CloudRail_Assignment_Manifest
           ref: 'main'
           token: ${{ secrets.G_TOKEN }}
       - name: setup git config
         run: |
           git config --global user.email "rohanrustagi21@gmail.com"
-          git config --global user.name "RohanRusta21"
-          echo ${{ github.sha }}
-          sed -i "s#${DOCKERHUB_USERNAME}.*#${DOCKERHUB_USERNAME}/${FRONTEND_REPO_NAME}:$GITHUB_RUN_NUMBER#g" frontend-deployment.yml
-          sed -i "s#${DOCKERHUB_USERNAME}.*#${DOCKERHUB_USERNAME}/${BACKEND_REPO_NAME}:$GITHUB_RUN_NUMBER#g" backend-deployment.yml
-          git add -A
-          git commit -am "Update image for Version - $GITHUB_RUN_NUMBER"
-      - run: echo ${{ github }}
-      - run: git push origin main
+          git config --global user.name "
