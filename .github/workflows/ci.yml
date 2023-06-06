@@ -66,16 +66,16 @@ jobs:
           node-version: 8
     
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd frontend
+          npm install
+          npm install -g @angular/cli@1.7.3
         
-      - name: Install Angular Dependency
-        run: npm install -g @angular/cli@1.7.3
-
       - name: Build and test frontend
         run: |
           cd frontend
-          ng build --prod
-          ng test
+          npm build
+          npm test
     
   backend-test:
     runs-on: ubuntu-latest
