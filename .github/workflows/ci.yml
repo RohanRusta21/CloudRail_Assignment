@@ -67,7 +67,10 @@ jobs:
     
       - name: Install dependencies
         run: npm install
-    
+        
+      - name: Install Angular Dependency
+        run: npm install -g @angular/cli@1.7.3
+
       - name: Build and test frontend
         run: |
           cd frontend
@@ -88,6 +91,9 @@ jobs:
     
       - name: Install dependencies
         run: npm install
+        
+      - name: Install Angular Dependency
+        run: npm install -g @angular/cli@1.7.3  
     
       - name: Test backend
         run: |
