@@ -75,7 +75,7 @@ jobs:
         run: |
           cd frontend
           npm build
-          npm test
+          npm test --browsers=ChromeHeadlessNoSandbox
     
   backend-test:
     runs-on: ubuntu-latest
