@@ -102,7 +102,7 @@ jobs:
           cd backend
           npm test
             
-  update-manifest-stage:
+  update-manifest-and-deploy-stage:
     runs-on: ubuntu-latest
     needs: ['build-and-push', 'frontend-test', 'backend-test']
     steps:
