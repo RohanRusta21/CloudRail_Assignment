@@ -7,7 +7,7 @@
   - Application also use MongoDB as a Datatbase. I have used MongoDB Atlas Cluster URI.
 
 
-#### CICD Flow used for the Project :
+#### CICD Flow used for the Project:
   - Source Code is pushed to Github Repository.
   - For Automating Continous Integration , I have used Github Action Workflow which works similar to Jenkins, GitLab CI,etc.
   - I have created ci.yml file which has all the Stages and Step. File is located in .github/workflows directory.
