@@ -15,6 +15,7 @@ env:
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   FRONTEND_REPO_NAME: "assignment_frontend"
   BACKEND_REPO_NAME: "assignment_backend"
+  version: ${{secrets.version}}
 
 jobs:
   build-and-push:
@@ -38,7 +39,7 @@ jobs:
         run: |
           cd frontend
           mv Dockerfile Dockerfile1
-          sed -i 's/LABEL Maintainer="Rohan"/LABEL Maintainer="shivang"/' Dockerfile1
+          sed -i 's/LABEL Maintainer="Rohan"/LABEL Maintainer="${version}"/' Dockerfile1
           docker build -t "${DOCKERHUB_USERNAME}/${FRONTEND_REPO_NAME}:$GITHUB_RUN_NUMBER" -f Dockerfile1 .
       
   #     - name: Build Backend Image
