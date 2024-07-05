@@ -38,7 +38,7 @@ jobs:
         run: |
           cd frontend
           mv Dockerfile Dockerfile1
-          sed -i 's/LABEL Maintainer="shivang"/LABEL Maintainer="Mohan"/' Dockerfile1
+          sed -i 's/LABEL Maintainer="Rohan"/LABEL Maintainer="shivang"/' Dockerfile1
           docker build -t "${DOCKERHUB_USERNAME}/${FRONTEND_REPO_NAME}:$GITHUB_RUN_NUMBER" -f Dockerfile1 .
       
   #     - name: Build Backend Image
